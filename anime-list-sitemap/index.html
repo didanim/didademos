@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,8 +26,8 @@ header{padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--bo
 header h1{margin: 0; font-size: 2.5rem; color: var(--accent-blue); letter-spacing: -1px;}
 header p{color: var(--text-dim); font-size: 1.1rem; margin-top: 10px;}
         
-[data-theme="light"] {--cr-bg: #ffffff; --cr-text: #000000; --cr-subtext: #666666; --cr-border: #e0e0e0; --cr-orange: #f47521;}
-:root {--cr-bg: #141519; --cr-text: #ffffff; --cr-subtext: #a0a0a0; --cr-border: #23252b;}
+:root {--cr-bg: #ffffff; --cr-text: #000000; --cr-subtext: #666666; --cr-border: #e0e0e0; --cr-orange: #f47521;}
+[data-theme="dark"] {--cr-bg: #141519; --cr-text: #ffffff; --cr-subtext: #a0a0a0; --cr-border: #23252b;}
 body,.content-outer,.main-inner,.column-center-outer{overflow:visible !important;}
 #a-top{position: -webkit-sticky; position: sticky; top: 0; z-index: 1000; background: var(--cr-bg); border-bottom: 1px solid var(--cr-border); padding: 10px 0; transition: box-shadow 0.3s ease;}
 #a-top.sticky{box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);}
@@ -94,18 +94,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.show_animelist = function(data) { new AnimeListManager(data).init(); };
 /*]]>*/</script>
-
-    <script>
-    function syncTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-
-    syncTheme();
-
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'theme') syncTheme();
-    });
-</script>
 </body>
 </html>
