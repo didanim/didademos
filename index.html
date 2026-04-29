@@ -1,15 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dida's Script Lab | Project Demos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-:root{--bg-dark:#0d1117;--card-bg:#161b22;--accent-blue:#58a6ff;--text-main:#c9d1d9;--text-dim:#8b949e;--border:#30363d;}body{background-color:var(--bg-dark);color:var(--text-main);font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin:0;display:flex;flex-direction:column;min-height:100vh;}header{padding:60px 20px;text-align:center;border-bottom:1px solid var(--border);background:radial-gradient(circle at top,#1c2128 0%,#0d1117 100%);}header h1{margin:0;font-size:2.5rem;color:var(--accent-blue);letter-spacing:-1px;}header p{color:var(--text-dim);font-size:1.1rem;margin-top:10px;}.container{max-width:900px;margin:40px auto;padding:0 20px;flex-grow:1;}.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}.card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:24px;transition:transform 0.2s,border-color 0.2s;text-decoration:none;display:block;}.card:hover{transform:translateY(-5px);border-color:var(--accent-blue);background:#1c2128;}.card i{font-size:1.5rem;color:var(--accent-blue);margin-bottom:15px;display:block;}.card h2{margin:0 0 10px 0;font-size:1.25rem;color:#ffffff;}.card p{margin:0;color:var(--text-dim);font-size:0.95rem;line-height:1.5;}footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border);font-size:0.85rem;color:var(--text-dim);}@media (max-width:600px){header h1{font-size:1.8rem;}}
+        :root {
+            --bg-dark: #0d1117;
+            --card-bg: #161b22;
+            --accent-blue: #58a6ff;
+            --text-main: #c9d1d9;
+            --text-dim: #8b949e;
+            --border: #30363d;
+            --header-grad: radial-gradient(circle at top, #1c2128 0%, #0d1117 100%);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f0f2f5;
+            --card-bg: #ffffff;
+            --accent-blue: #0969da;
+            --text-main: #1f2328;
+            --text-dim: #57606a;
+            --border: #d0d7de;
+            --header-grad: radial-gradient(circle at top, #ffffff 0%, #f0f2f5 100%);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background 0.3s ease;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .home-btn, .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .home-btn:hover, .theme-toggle:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        header {
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--header-grad);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            letter-spacing: -1px;
+        }
+
+        header p { color: var(--text-dim); font-size: 1.1rem; margin-top: 10px; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; flex-grow: 1; }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .card i { font-size: 1.5rem; color: var(--accent-blue); margin-bottom: 15px; display: block; }
+        .card h2 { margin: 0 0 10px 0; font-size: 1.25rem; color: var(--text-main); }
+        .card p { margin: 0; color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 600px) { header h1 { font-size: 1.8rem; } }
     </style>
 </head>
 <body>
+
+    <nav class="top-nav">
+        <a href="/" class="home-btn"><i class="fa-solid fa-house"></i> Home</a>
+        <button class="theme-toggle" id="theme-btn">
+            <i class="fa-solid fa-moon"></i> Mode
+        </button>
+    </nav>
 
     <header>
         <h1><i class="fa-solid fa-wand-magic-sparkles"></i> Dida's Script Lab</h1>
@@ -22,13 +137,13 @@
             <a href="daily-release-schedule/index.html" class="card">
                 <i class="fa-solid fa-calendar-days"></i>
                 <h2>Daily Release Schedule</h2>
-                <p>A dynamic, tabbed interface for displaying content airing times. Fully responsive for mobile users.</p>
+                <p>A dynamic, tabbed interface for airing times. Fully responsive for mobile.</p>
             </a>
 
             <a href="anime-list-sitemap/index.html" class="card">
                 <i class="fa-solid fa-sitemap"></i>
                 <h2>Anime List Sitemap</h2>
-                <p>An A-Z categorized navigation system designed to help users find anime/manga content instantly.</p>
+                <p>An A-Z categorized navigation system for quick content discovery.</p>
             </a>
 
         </div>
@@ -38,5 +153,28 @@
         &copy; 2026 Dida • Built with HTML/CSS & GitHub Pages
     </footer>
 
+    <script>
+        const themeBtn = document.getElementById('theme-btn');
+        const htmlElement = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            themeBtn.innerHTML = theme === 'dark' 
+                ? '<i class="fa-solid fa-sun"></i> Light' 
+                : '<i class="fa-solid fa-moon"></i> Dark';
+        }
+    </script>
 </body>
 </html>
