@@ -26,9 +26,20 @@ footer{margin-top: auto; padding: 20px; color: #484f58; font-size: 0.8rem;}
 .schedules__entries{display: none; gap: 12px; padding: 20px 15px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;}
 .schedules__entries::-webkit-scrollbar{display: none;}
 .schedules__entries.is-active{display: flex;}
-@media (min-width: 768px){.schedules__entries.is-active{display: grid; grid-template-columns: repeat(auto-fill, 160px); overflow-x: visible;}
+@media (min-width: 768px) {
+  .schedules__entries.is-active {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 160px); 
+    justify-content: start;
+    gap: 15px;
+    overflow-x: visible;
+  }
+    .bs-item {
+    width: 160px; 
+  }
 }
-.bs-item{min-width: 140px; flex: 0 0 140px; scroll-snap-align: start; transition: transform 0.2s ease;}
+.bs-item{width: 140px; scroll-snap-align: start; transition: transform 0.2s ease;}
+.bs-item a {text-decoration: none;}
 .bs-item:hover{transform: translateY(-5px);}
 .bs-item .limit{position: relative; border-radius: 6px; overflow: hidden; aspect-ratio: 3/4; background: #1e1e1e;}
 .bs-item .limit img{width: 100%; height: 100%; object-fit: cover;}
