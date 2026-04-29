@@ -181,7 +181,7 @@ window.show_animelist = function(data) { new AnimeListManager(data).init(); };
 
         themeBtn.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             
             htmlElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
