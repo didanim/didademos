@@ -1,5 +1,5 @@
 (() => {
-    const blogURL = "omniotakuu.blogspot.com";
+    const blogURL = "https://omniotakuu.blogspot.com";
     const maxPosts = 50; 
     const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const todayName = daysOfWeek[new Date().getDay()];
