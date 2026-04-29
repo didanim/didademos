@@ -9,21 +9,10 @@
         :root {
             --bg-dark: #0d1117;
             --card-bg: #161b22;
-            --accent-blue: #58a6ff;
+            --accent-blue: #58a6ff; 
             --text-main: #c9d1d9;
             --text-dim: #8b949e;
             --border: #30363d;
-            --header-grad: radial-gradient(circle at top, #1c2128 0%, #0d1117 100%);
-        }
-
-        [data-theme="light"] {
-            --bg-dark: #f0f2f5;
-            --card-bg: #ffffff;
-            --accent-blue: #0969da;
-            --text-main: #1f2328;
-            --text-dim: #57606a;
-            --border: #d0d7de;
-            --header-grad: radial-gradient(circle at top, #ffffff 0%, #f0f2f5 100%);
         }
 
         body {
@@ -34,40 +23,13 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            transition: background 0.3s ease;
-        }
-
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .home-btn, .theme-toggle {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: 0.2s;
-        }
-
-        .home-btn:hover, .theme-toggle:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
         }
 
         header {
             padding: 60px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border);
-            background: var(--header-grad);
+            background: radial-gradient(circle at top, #1c2128 0%, #0d1117 100%);
         }
 
         header h1 {
@@ -77,10 +39,19 @@
             letter-spacing: -1px;
         }
 
-        header p { color: var(--text-dim); font-size: 1.1rem; margin-top: 10px; }
+        header p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
 
-        .container { max-width: 1200px; width: 100%; margin: 20px auto; padding: 0 20px; flex-grow: 1; }
-        
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
         .project-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -100,11 +71,28 @@
         .card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-blue);
+            background: #1c2128;
         }
 
-        .card i { font-size: 1.5rem; color: var(--accent-blue); margin-bottom: 15px; display: block; }
-        .card h2 { margin: 0 0 10px 0; font-size: 1.25rem; color: var(--text-main); }
-        .card p { margin: 0; color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; }
+        .card i {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+            color: #ffffff;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
 
         footer {
             text-align: center;
@@ -114,7 +102,9 @@
             color: var(--text-dim);
         }
 
-        @media (max-width: 600px) { header h1 { font-size: 1.8rem; } }
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
@@ -123,13 +113,7 @@
         <h1><i class="fa-solid fa-wand-magic-sparkles"></i> Dida's Script Lab</h1>
         <p>Live technical demos for my Blogger projects</p>
     </header>
-     <nav class="top-nav">
-        <a href="omniotakuu.blogspot.com" class="home-btn"><i class="fa-solid fa-house"></i> Home</a>
-        <button class="theme-toggle" id="theme-btn">
-            <i class="fa-solid fa-moon"></i> Mode
-        </button>
-    </nav>
-
+    
     <div class="container">
         <div class="project-grid">
             
@@ -151,29 +135,5 @@
     <footer>
         &copy; 2026 Dida • Built with HTML/CSS & GitHub Pages
     </footer>
-
-    <script>
-        const themeBtn = document.getElementById('theme-btn');
-        const htmlElement = document.documentElement;
-        
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        htmlElement.setAttribute('data-theme', savedTheme);
-        updateIcon(savedTheme);
-
-        themeBtn.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            htmlElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateIcon(newTheme);
-        });
-
-        function updateIcon(theme) {
-            themeBtn.innerHTML = theme === 'dark' 
-                ? '<i class="fa-solid fa-sun"></i> Light' 
-                : '<i class="fa-solid fa-moon"></i> Dark';
-        }
-    </script>
 </body>
 </html>
