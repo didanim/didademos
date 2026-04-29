@@ -1,0 +1,17 @@
+.schedules-container{background: #121212; color: #ffffff; font-family: 'Inter', -apple-system, sans-serif; padding: 10px 0; border-radius: 8px; overflow: hidden;}
+.schedules__nav{display: flex; overflow-x: auto; white-space: nowrap; border-bottom: 1px solid #2a2a2a; padding: 0 10px; scrollbar-width: none;}
+.schedules__nav::-webkit-scrollbar{display: none;}
+.schedules__day{padding: 12px 18px; font-size: 14px; font-weight: 700; text-transform: uppercase; cursor: pointer; color: #777; transition: all 0.3s ease; position: relative; flex-shrink: 0;}
+.schedules__day.is-active{color: #ff3d4d;}
+.schedules__day.is-active::after{content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: #ff3d4d;}
+.schedules__entries{display: none; gap: 12px; padding: 20px 15px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;}
+.schedules__entries::-webkit-scrollbar{display: none;}
+.schedules__entries.is-active{display: flex;}
+@media (min-width: 768px){.schedules__entries.is-active{display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); overflow-x: visible;}
+}
+.bs-item{min-width: 140px; scroll-snap-align: start; transition: transform 0.2s ease;}
+.bs-item:hover{transform: translateY(-5px);}
+.bs-item .limit{position: relative; border-radius: 6px; overflow: hidden; aspect-ratio: 3/4; background: #1e1e1e;}
+.bs-item .limit img{width: 100%; height: 100%; object-fit: cover;}
+.bs-item .tt{margin-top: 8px; font-size: 13px; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: #eee;}
+.no-results{color: #555; padding: 20px; font-size: 14px;}
