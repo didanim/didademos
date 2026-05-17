@@ -1,51 +1,380 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dida's Script Lair | Project Demos</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
     <style>
-:root{--bg-dark: #0d1117; --card-bg: #161b22; --accent-blue: #58a6ff; --text-main: #c9d1d9; --text-dim: #8b949e; --border: #30363d;}
-* {box-sizing: border-box;}
-body{background-color: var(--bg-dark); color: var(--text-main); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 0; margin: 0; display: flex; flex-direction: column; min-height: 100vh;}
-header{padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border); background: radial-gradient(circle at top, #1c2128 0%, #0d1117 100%);}
-header h1{margin: 0; font-size: 2.5rem; color: var(--accent-blue); letter-spacing: -1px;}
-header p{color: var(--text-dim); font-size: 1.1rem; margin-top: 10px;}
-.container{max-width: 1200px; margin: 40px auto; padding: 0 20px; flex-grow: 1;width: 100%;}
-.project-grid{display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;}
-.card{background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: transform 0.2s, border-color 0.2s; text-decoration: none; display: block;}
-.card:hover{transform: translateY(-5px); border-color: var(--accent-blue); background: #1c2128;}
-.card i{font-size: 1.5rem; color: var(--accent-blue); display: block;margin-right: 5px;}
-.card h2{margin: 0; font-size: 1.25rem; color: #ffffff;display: flex; justify-content: center;}
-footer{text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-dim);}
-@media (max-width: 600px){header h1{font-size: 1.8rem;}
-}
+        :root {
+            --win-bg: #008080; 
+            --win-gray: #c0c0c0;
+            --win-light: #ffffff;
+            --win-shadow: #808080;
+            --win-dark-shadow: #0a0a0a;
+            --win-blue: #000080;
+            --font-retro: "MS Sans Serif", Geneva, sans-serif;
+            
+            --phone-body: #1a2634;
+            --phone-screen: #8fa382; 
+            --phone-text: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: var(--font-retro);
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--win-bg);
+            color: #000;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .music-player {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: var(--win-gray);
+            border: 2px solid;
+            border-color: var(--win-light) var(--win-shadow) var(--win-shadow) var(--win-light);
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 9999;
+            box-shadow: 1px 1px 0 0 var(--win-dark-shadow);
+        }
+        .player-title {
+            font-size: 11px;
+            font-weight: bold;
+            background: var(--win-blue);
+            color: white;
+            padding: 2px 6px;
+        }
+        .music-player button {
+            background: var(--win-gray);
+            border: 2px solid;
+            border-color: var(--win-light) var(--win-shadow) var(--win-shadow) var(--win-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+        }
+        .music-player button:active {
+            border-color: var(--win-shadow) var(--win-light) var(--win-light) var(--win-shadow);
+        }
+        .music-player iconify-icon {
+            font-size: 16px;
+            color: #000;
+        }
+
+        /* ==========================================================================
+           DESKTOP VIEW (Windows 98 Style)
+           ========================================================================== */
+        @media (min-width: 768px) {
+            .mobile-wrapper { display: none; }
+
+            .desktop-space {
+                flex: 1;
+                padding: 20px;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                grid-auto-rows: 90px;
+                gap: 20px;
+                align-content: flex-start;
+            }
+
+            .desktop-icon {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                text-decoration: none;
+                color: white;
+                font-size: 12px;
+                cursor: pointer;
+            }
+            .desktop-icon iconify-icon {
+                font-size: 40px;
+                margin-bottom: 6px;
+                filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.8));
+            }
+            .desktop-icon span {
+                padding: 2px 4px;
+                text-shadow: 1px 1px 1px #000;
+            }
+            .desktop-icon:hover span {
+                background-color: var(--win-blue);
+                outline: 1px dotted #fff;
+            }
+
+            .taskbar {
+                height: 40px;
+                background: var(--win-gray);
+                border-top: 2px solid var(--win-light);
+                display: flex;
+                align-items: center;
+                padding: 2px 6px;
+                justify-content: space-between;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                z-index: 1000;
+            }
+            .start-btn {
+                font-weight: bold;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                padding: 2px 6px;
+                border: 2px solid;
+                border-color: var(--win-light) var(--win-shadow) var(--win-shadow) var(--win-light);
+                background: var(--win-gray);
+            }
+            .start-btn iconify-icon { font-size: 18px; }
+            .taskbar-apps {
+                flex: 1;
+                margin-left: 10px;
+                display: flex;
+                gap: 4px;
+            }
+            .active-app {
+                border: 2px solid;
+                border-color: var(--win-shadow) var(--win-light) var(--win-light) var(--win-shadow);
+                background: #e0e0e0;
+                font-size: 12px;
+                padding: 4px 12px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+            .system-tray {
+                border: 2px solid;
+                border-color: var(--win-shadow) var(--win-light) var(--win-light) var(--win-shadow);
+                padding: 4px 8px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+        }
+
+        /* ==========================================================================
+           MOBILE VIEW (Retro Brick Phone Style)
+           ========================================================================== */
+        @media (max-width: 767px) {
+            body {
+                background-color: #2b3a4a;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+            }
+            .desktop-space, .taskbar { display: none; }
+
+            .mobile-wrapper {
+                display: block;
+                width: 100%;
+                max-width: 340px;
+                background: var(--phone-body);
+                border-radius: 30px;
+                padding: 25px 18px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.2);
+                border: 4px solid #3a4f66;
+            }
+
+            .phone-screen {
+                background: var(--phone-screen);
+                border: 6px solid #111;
+                border-radius: 8px;
+                padding: 10px;
+                color: var(--phone-text);
+                min-height: 320px;
+                display: flex;
+                flex-direction: column;
+            }
+            .phone-header {
+                display: flex;
+                justify-content: space-between;
+                font-size: 11px;
+                font-weight: bold;
+                border-bottom: 1px solid #5a6b51;
+                padding-bottom: 4px;
+                margin-bottom: 10px;
+            }
+            .phone-menu-title {
+                text-align: center;
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 15px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .phone-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                flex: 1;
+            }
+            .phone-app {
+                border: 1px solid #5a6b51;
+                background: rgba(255,255,255,0.15);
+                border-radius: 6px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 10px 6px;
+                text-decoration: none;
+                color: var(--phone-text);
+                text-align: center;
+            }
+            .phone-app iconify-icon {
+                font-size: 32px;
+                margin-bottom: 4px;
+            }
+            .phone-app span {
+                font-size: 11px;
+                font-weight: bold;
+                line-height: 1.2;
+            }
+            .phone-app:active {
+                background: #5a6b51;
+                color: var(--phone-screen);
+            }
+
+            .phone-keypad {
+                margin-top: 20px;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                padding: 0 10px;
+            }
+            .key {
+                background: #2c3845;
+                height: 34px;
+                border-radius: 8px;
+                border-bottom: 3px solid #151b22;
+                box-shadow: 0 2px 2px rgba(0,0,0,0.4);
+            }
+            .key.center {
+                background: #e74c3c; 
+            }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1><i class="fa-solid fa-wand-magic-sparkles"></i> Dida's Script Lair</h1>
-        <p>Live technical demos for my Blogger projects</p>
-    </header>
-    
-    <div class="container">
-        <div class="project-grid">
-            
-            <a href="daily-release-schedule/index.html" class="card">
-                <h2><i class="fa-solid fa-calendar-days"></i>Daily Release Schedule</h2>
-            </a>
+    <div class="music-player">
+        <span class="player-title">WINAMP</span>
+        <button id="playBtn" onclick="toggleAudio()" title="Play/Pause">
+            <iconify-icon id="playIcon" icon="msedit:play"></iconify-icon>
+        </button>
+        <audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
+    </div>
 
-            <a href="anime-list-sitemap/index.html" class="card">
-                <h2><i class="fa-solid fa-sitemap"></i>Anime List Sitemap</h2>
-            </a>
+    <!-- ==========================================
+         DESKTOP VIEW 
+         ========================================== -->
+    <div class="desktop-space">
+        <a href="daily-release-schedule/index.html" class="desktop-icon">
+            <iconify-icon icon="win98:schedule-tasks"></iconify-icon>
+            <span>Daily Release Schedule</span>
+        </a>
 
+        <a href="anime-list-sitemap/index.html" class="desktop-icon">
+            <iconify-icon icon="win98:directory-net-web-1"></iconify-icon>
+            <span>Anime List Sitemap</span>
+        </a>
+    </div>
+
+    <div class="taskbar">
+        <button class="start-btn">
+            <iconify-icon icon="win98:windows-98"></iconify-icon>
+            Start
+        </button>
+        <div class="taskbar-apps">
+            <div class="active-app">
+                <iconify-icon icon="win98:computer-3"></iconify-icon>
+                Dida's Script Lair
+            </div>
+        </div>
+        <div class="system-tray">
+            <iconify-icon icon="win98:loudspeaker-rays"></iconify-icon>
+            <span id="desktop-clock">00:00 AM</span>
         </div>
     </div>
 
-    <footer>
-        &copy; 2026 Dida • Built with HTML/CSS & GitHub Pages
-    </footer>
+
+    <!-- ==========================================
+         MOBILE VIEW (Simulated Handset)
+         ========================================== -->
+    <div class="mobile-wrapper">
+        <div class="phone-screen">
+            <div class="phone-header">
+                <span><iconify-icon icon="lucide:signal"></iconify-icon> SCRIPT-NET</span>
+                <span><iconify-icon icon="lucide:battery-medium"></iconify-icon></span>
+            </div>
+            
+            <div class="phone-menu-title">Main Applications</div>
+            
+            <div class="phone-grid">
+                <a href="daily-release-schedule/index.html" class="phone-app">
+                    <iconify-icon icon="fluent-emoji-high-contrast:calendar"></iconify-icon>
+                    <span>Release Schedule</span>
+                </a>
+
+                <a href="anime-list-sitemap/index.html" class="phone-app">
+                    <iconify-icon icon="fluent-emoji-high-contrast:compass"></iconify-icon>
+                    <span>Anime Sitemap</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="phone-keypad">
+            <div class="key"></div><div class="key center"></div><div class="key"></div>
+            <div class="key"></div><div class="key"></div><div class="key"></div>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const playIcon = document.getElementById('playIcon');
+
+        function toggleAudio() {
+            if (music.paused) {
+                music.play();
+                playIcon.setAttribute('icon', 'msedit:pause');
+            } else {
+                music.pause();
+                playIcon.setAttribute('icon', 'msedit:play');
+            }
+        }
+
+        // Live Clock for Desktop Taskbar
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            document.getElementById('desktop-clock').textContent = `${hours}:${minutes} ${ampm}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
