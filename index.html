@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dida's Script Lair | Project Demos</title>
+    <!-- Iconify Script CDN -->
     <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
     <style>
         :root {
@@ -13,8 +14,9 @@
             --win-shadow: #808080;
             --win-dark-shadow: #0a0a0a;
             --win-blue: #000080;
-            --font-retro: "MS Sans Serif", Geneva, sans-serif;
+            --font-retro: "MS Sans Serif", Tahoma, Arial, sans-serif;
             
+            /* Mobile Palette */
             --phone-body: #1a2634;
             --phone-screen: #8fa382; 
             --phone-text: #000000;
@@ -23,8 +25,8 @@
         * {
             box-sizing: border-box;
             font-family: var(--font-retro);
-            -webkit-font-smoothing: none;
-            -moz-osx-font-smoothing: none;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         body {
@@ -32,12 +34,14 @@
             padding: 0;
             background-color: var(--win-bg);
             color: #000;
-            overflow-x: hidden;
+            overflow: hidden;
             height: 100vh;
+            width: 100vw;
             display: flex;
             flex-direction: column;
         }
 
+        /* --- RETRO MUSIC PLAYER (Top Right) --- */
         .music-player {
             position: fixed;
             top: 10px;
@@ -45,11 +49,11 @@
             background: var(--win-gray);
             border: 2px solid;
             border-color: var(--win-light) var(--win-shadow) var(--win-shadow) var(--win-light);
-            padding: 4px;
+            padding: 6px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            z-index: 9999;
+            gap: 8px;
+            z-index: 10000;
             box-shadow: 1px 1px 0 0 var(--win-dark-shadow);
         }
         .player-title {
@@ -67,7 +71,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2px;
+            padding: 4px;
         }
         .music-player button:active {
             border-color: var(--win-shadow) var(--win-light) var(--win-light) var(--win-shadow);
@@ -75,6 +79,22 @@
         .music-player iconify-icon {
             font-size: 16px;
             color: #000;
+        }
+        /* Status Indicator Indicator */
+        .status-light {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ff3b30; /* Initially Red (Paused) */
+            border: 1px solid #000;
+            box-shadow: inset 1px 1px 1px rgba(0,0,0,0.6);
+        }
+        .status-light.playing {
+            background-color: #4cd964; /* Green when playing */
+            animation: blink 1s infinite alternate;
+        }
+        @keyframes blink {
+            from { opacity: 1; } to { opacity: 0.4; }
         }
 
         /* ==========================================================================
@@ -85,15 +105,15 @@
 
             .desktop-space {
                 flex: 1;
+                position: relative;
+                width: 100%;
+                height: calc(100vh - 40px);
                 padding: 20px;
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                grid-auto-rows: 90px;
-                gap: 20px;
-                align-content: flex-start;
             }
 
+            /* Draggable Desktop Icons */
             .desktop-icon {
+                position: absolute;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -101,22 +121,32 @@
                 text-decoration: none;
                 color: white;
                 font-size: 12px;
-                cursor: pointer;
+                width: 100px;
+                cursor: move;
+                padding: 8px;
+                z-index: 10;
             }
             .desktop-icon iconify-icon {
-                font-size: 40px;
+                font-size: 44px;
+                color: #ffffff;
                 margin-bottom: 6px;
-                filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.8));
             }
             .desktop-icon span {
                 padding: 2px 4px;
                 text-shadow: 1px 1px 1px #000;
+                word-break: break-word;
+                display: block;
             }
-            .desktop-icon:hover span {
+            .desktop-icon:active span, .desktop-icon:focus span {
                 background-color: var(--win-blue);
                 outline: 1px dotted #fff;
             }
 
+            /* Layout Assignments for Initial Positioning */
+            #icon1 { top: 30px; left: 30px; }
+            #icon2 { top: 150px; left: 30px; }
+
+            /* Windows 98 Taskbar */
             .taskbar {
                 height: 40px;
                 background: var(--win-gray);
@@ -128,7 +158,7 @@
                 position: fixed;
                 bottom: 0;
                 width: 100%;
-                z-index: 1000;
+                z-index: 999;
             }
             .start-btn {
                 font-weight: bold;
@@ -141,7 +171,6 @@
                 border-color: var(--win-light) var(--win-shadow) var(--win-shadow) var(--win-light);
                 background: var(--win-gray);
             }
-            .start-btn iconify-icon { font-size: 18px; }
             .taskbar-apps {
                 flex: 1;
                 margin-left: 10px;
@@ -167,6 +196,7 @@
                 display: flex;
                 align-items: center;
                 gap: 6px;
+                background: var(--win-gray);
             }
         }
 
@@ -179,28 +209,33 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: 10px;
+                padding: 15px;
+                height: 100vh;
+                width: 100vw;
             }
             .desktop-space, .taskbar { display: none; }
 
+            /* Phone Container Frame */
             .mobile-wrapper {
-                display: block;
+                display: flex;
+                flex-direction: column;
                 width: 100%;
-                max-width: 340px;
+                max-width: 330px;
                 background: var(--phone-body);
-                border-radius: 30px;
-                padding: 25px 18px;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.2);
+                border-radius: 24px;
+                padding: 20px 16px;
+                box-shadow: 0 12px 30px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.2);
                 border: 4px solid #3a4f66;
             }
 
+            /* UI Display Screen */
             .phone-screen {
                 background: var(--phone-screen);
-                border: 6px solid #111;
-                border-radius: 8px;
+                border: 5px solid #111;
+                border-radius: 6px;
                 padding: 10px;
                 color: var(--phone-text);
-                min-height: 320px;
+                min-height: 280px;
                 display: flex;
                 flex-direction: column;
             }
@@ -211,17 +246,18 @@
                 font-weight: bold;
                 border-bottom: 1px solid #5a6b51;
                 padding-bottom: 4px;
-                margin-bottom: 10px;
+                margin-bottom: 15px;
             }
             .phone-menu-title {
                 text-align: center;
-                font-size: 14px;
+                font-size: 13px;
                 font-weight: bold;
                 margin-bottom: 15px;
                 text-transform: uppercase;
                 letter-spacing: 1px;
             }
 
+            /* Responsive App Links Grid Inside Device Viewport */
             .phone-grid {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
@@ -230,23 +266,24 @@
             }
             .phone-app {
                 border: 1px solid #5a6b51;
-                background: rgba(255,255,255,0.15);
+                background: rgba(255,255,255,0.2);
                 border-radius: 6px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                padding: 10px 6px;
+                padding: 12px 6px;
                 text-decoration: none;
                 color: var(--phone-text);
                 text-align: center;
             }
             .phone-app iconify-icon {
-                font-size: 32px;
-                margin-bottom: 4px;
+                font-size: 36px;
+                margin-bottom: 6px;
+                color: #111;
             }
             .phone-app span {
-                font-size: 11px;
+                font-size: 12px;
                 font-weight: bold;
                 line-height: 1.2;
             }
@@ -255,94 +292,105 @@
                 color: var(--phone-screen);
             }
 
+            /* Keypad Decoration Elements */
             .phone-keypad {
-                margin-top: 20px;
+                margin-top: 15px;
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-                padding: 0 10px;
+                gap: 8px;
+                padding: 0 5px;
             }
             .key {
                 background: #2c3845;
-                height: 34px;
-                border-radius: 8px;
+                height: 30px;
+                border-radius: 6px;
                 border-bottom: 3px solid #151b22;
-                box-shadow: 0 2px 2px rgba(0,0,0,0.4);
             }
-            .key.center {
-                background: #e74c3c; 
-            }
+            .key.center { background: #e74c3c; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Retro Music Player Module -->
     <div class="music-player">
         <span class="player-title">WINAMP</span>
-        <button id="playBtn" onclick="toggleAudio()" title="Play/Pause">
-            <iconify-icon id="playIcon" icon="msedit:play"></iconify-icon>
+        <div id="statusLight" class="status-light"></div>
+        <button onclick="toggleAudio()" title="Play/Pause">
+            <iconify-icon id="playIcon" icon="fluent:play-24-filled"></iconify-icon>
         </button>
+        <!-- Replace target audio source data pointer mapping address here if needed -->
         <audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
     </div>
 
     <!-- ==========================================
-         DESKTOP VIEW 
+         DESKTOP MODE 
          ========================================== -->
     <div class="desktop-space">
-        <a href="daily-release-schedule/index.html" class="desktop-icon">
-            <iconify-icon icon="win98:schedule-tasks"></iconify-icon>
-            <span>Daily Release Schedule</span>
-        </a>
+        <!-- Draggable App Icon 1 -->
+        <div id="icon1" class="desktop-icon" draggable="false">
+            <a href="daily-release-schedule/index.html" style="text-decoration:none; color:inherit; display:contents;">
+                <iconify-icon icon="wpf:calendar"></iconify-icon>
+                <span>Daily Release Schedule</span>
+            </a>
+        </div>
 
-        <a href="anime-list-sitemap/index.html" class="desktop-icon">
-            <iconify-icon icon="win98:directory-net-web-1"></iconify-icon>
-            <span>Anime List Sitemap</span>
-        </a>
+        <!-- Draggable App Icon 2 -->
+        <div id="icon2" class="desktop-icon" draggable="false">
+            <a href="anime-list-sitemap/index.html" style="text-decoration:none; color:inherit; display:contents;">
+                <iconify-icon icon="wpf:globe"></iconify-icon>
+                <span>Anime List Sitemap</span>
+            </a>
+        </div>
     </div>
 
+    <!-- Desktop Taskbar Container -->
     <div class="taskbar">
         <button class="start-btn">
-            <iconify-icon icon="win98:windows-98"></iconify-icon>
+            <iconify-icon icon="logos:microsoft-windows" style="font-size:14px; margin-right:4px;"></iconify-icon>
             Start
         </button>
         <div class="taskbar-apps">
             <div class="active-app">
-                <iconify-icon icon="win98:computer-3"></iconify-icon>
+                <iconify-icon icon="wpf:computer-monitor" style="font-size:14px; margin-right:4px;"></iconify-icon>
                 Dida's Script Lair
             </div>
         </div>
         <div class="system-tray">
-            <iconify-icon icon="win98:loudspeaker-rays"></iconify-icon>
+            <iconify-icon icon="fluent:speaker-2-24-filled"></iconify-icon>
             <span id="desktop-clock">00:00 AM</span>
         </div>
     </div>
 
 
     <!-- ==========================================
-         MOBILE VIEW (Simulated Handset)
+         MOBILE MODE (Nokia/Symbian Handset Device UI Layout)
          ========================================== -->
     <div class="mobile-wrapper">
         <div class="phone-screen">
             <div class="phone-header">
-                <span><iconify-icon icon="lucide:signal"></iconify-icon> SCRIPT-NET</span>
-                <span><iconify-icon icon="lucide:battery-medium"></iconify-icon></span>
+                <span><iconify-icon icon="fluent:cellular-data-5-24-filled"></iconify-icon> SCRIPT-NET</span>
+                <span><iconify-icon icon="fluent:battery-charge-24-filled"></iconify-icon></span>
             </div>
             
-            <div class="phone-menu-title">Main Applications</div>
+            <div class="phone-menu-title">Applications</div>
             
             <div class="phone-grid">
+                <!-- Mobile App Link 1 -->
                 <a href="daily-release-schedule/index.html" class="phone-app">
-                    <iconify-icon icon="fluent-emoji-high-contrast:calendar"></iconify-icon>
+                    <iconify-icon icon="wpf:calendar"></iconify-icon>
                     <span>Release Schedule</span>
                 </a>
 
+                <!-- Mobile App Link 2 -->
                 <a href="anime-list-sitemap/index.html" class="phone-app">
-                    <iconify-icon icon="fluent-emoji-high-contrast:compass"></iconify-icon>
+                    <iconify-icon icon="wpf:globe"></iconify-icon>
                     <span>Anime Sitemap</span>
                 </a>
             </div>
         </div>
         
+        <!-- Mechanical Layout Keypad Mockup -->
         <div class="phone-keypad">
             <div class="key"></div><div class="key center"></div><div class="key"></div>
             <div class="key"></div><div class="key"></div><div class="key"></div>
@@ -350,20 +398,25 @@
     </div>
 
     <script>
+        // --- AUDIO ENGINE LOGIC & INDICATOR GRAPHICS ---
         const music = document.getElementById('bgMusic');
         const playIcon = document.getElementById('playIcon');
+        const statusLight = document.getElementById('statusLight');
 
         function toggleAudio() {
             if (music.paused) {
-                music.play();
-                playIcon.setAttribute('icon', 'msedit:pause');
+                music.play().then(() => {
+                    playIcon.setAttribute('icon', 'fluent:pause-24-filled');
+                    statusLight.classList.add('playing');
+                }).catch(err => console.log("Audio play blocked: Interacted needed."));
             } else {
                 music.pause();
-                playIcon.setAttribute('icon', 'msedit:play');
+                playIcon.setAttribute('icon', 'fluent:play-24-filled');
+                statusLight.classList.remove('playing');
             }
         }
 
-        // Live Clock for Desktop Taskbar
+        // --- WINDOWS 98 GRAPHICAL SYSTEM CLOCK ---
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();
@@ -375,6 +428,63 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+
+        // --- CORE RUNTIME DRAG & DROP SYSTEM ENGINE ---
+        const icons = document.querySelectorAll('.desktop-icon');
+        
+        icons.forEach(icon => {
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            // Handle Mouse Down / Touch Start Initialization
+            function startDrag(e) {
+                // If targeting the text or link directly, don't interrupt click defaults unless dragging occurs
+                isDragging = true;
+                
+                const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                
+                const rect = icon.getBoundingClientRect();
+                offsetX = clientX - rect.left;
+                offsetY = clientY - rect.top;
+                
+                icon.style.zIndex = "1000"; // Bring to foreground layer
+            }
+
+            // Handle Pointer Element Drag Processing 
+            function dragMove(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                
+                const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                
+                // Calculate position offsets relative to the parent space bounds
+                let newX = clientX - offsetX;
+                let newY = clientY - offsetY;
+                
+                icon.style.left = `${newX}px`;
+                icon.style.top = `${newY}px`;
+            }
+
+            // End Drag Interactions
+            function stopDrag() {
+                if(isDragging) {
+                    isDragging = false;
+                    icon.style.zIndex = "10"; 
+                }
+            }
+
+            // Register standard desktop input handling
+            icon.addEventListener('mousedown', startDrag);
+            window.addEventListener('mousemove', dragMove);
+            window.addEventListener('mouseup', stopDrag);
+
+            // Register standard touch device input handling
+            icon.addEventListener('touchstart', startDrag, { passive: false });
+            window.addEventListener('touchmove', dragMove, { passive: false });
+            window.addEventListener('touchend', stopDrag);
+        });
     </script>
 </body>
 </html>
