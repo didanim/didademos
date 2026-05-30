@@ -1,0 +1,347 @@
+<div class="dida-shelf">
+  <div class="overlay" id="overlay"></div>
+  <div class="shelf-container" id="dida-bookshelf"></div>
+</div>
+<style>:root {
+            --bg-color: #0f0f14;
+            --shelf-wood: #5c3a21;
+            --shelf-darkwood: #3d2514;
+            --accent-color: #ffffff;
+            --transition-speed: 0.6s;
+            --cubic-bezier: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .dida-shelf {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            perspective: 2000px;
+        }
+        /* Bookshelf Main Container */
+        .shelf-container {
+            position: relative;
+            width: 90vw;
+            max-width: 1000px;
+            margin: 50px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        /* Individual Auto-Generated Rows */
+        .shelf-row {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        /* 3D Realistic Wooden Dividers */
+        .wood-shelf {
+            position: absolute;
+            bottom: -15px;
+            left: -5%;
+            width: 110%;
+            height: 16px;
+            background: linear-gradient(to bottom, var(--shelf-wood), var(--shelf-darkwood));
+            border-radius: 2px;
+            box-shadow: 
+                0 4px 6px rgba(0,0,0,0.6),
+                0 12px 24px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            z-index: 2;
+        }
+        /* Book Wrapper */
+        .book-wrapper {
+            position: relative;
+            width: 45px;
+            height: 180px;
+            margin: 0 6px;
+            cursor: pointer;
+            transition: width var(--transition-speed) var(--cubic-bezier);
+            z-index: 3;
+        }
+        @media (min-width: 768px) {
+            .book-wrapper {
+                width: 50px;
+                height: 200px;
+                margin: 0 8px;
+            }
+        }
+        /* The 3D Book Object */
+        .book {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform var(--transition-speed) var(--cubic-bezier);
+        }
+        /* Book Faces */
+        .book-side {
+            position: absolute;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+        }
+        .spine {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotateY(0deg);
+            box-shadow: inset -5px 0 12px rgba(0,0,0,0.3);
+        }
+        .spine span {
+            transform: rotate(90deg);
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        @media (min-width: 768px) {
+            .spine span {font-size: 0.85rem;}
+        }
+        /* --- FIX: RESTORED ORIGINAL 3D FRONT COVERS FOR SHELF HOVER --- */
+        .front-desktop {
+            width: 130px;
+            height: 100%;
+            background: #222;
+            left: 45px;
+            transform-origin: left;
+            transform: rotateY(90deg);
+            background-size: cover;
+            background-position: center;
+        }
+        @media (min-width: 768px) {
+            .front-desktop {
+                width: 140px;
+                left: 50px;
+            }
+        }
+        /* Hide the 3D desktop cover completely once opened */
+        .book-wrapper.opened .front-desktop {
+            display: none !important;
+        }
+        /* HOVER EFFECT: Float forward (Desktop Only) */
+        @media (hover: hover) {
+            .book-wrapper:hover:not(.opened) .book {
+                transform: translateZ(120px) rotateY(-25deg) translateX(-20px);
+                z-index: 100;
+            }
+        }
+        /* OPENED STATE (Responsive Modal Frame) */
+        .book-wrapper.opened {
+            z-index: 1000;
+            width: 0; 
+        }
+        .book-wrapper.opened .book {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateY(0deg);
+            width: 90vw;
+            height: 80vh;
+            max-width: 650px;
+            max-height: 450px;
+            display: flex;
+            flex-direction: column;
+        }
+        @media (min-width: 600px) {
+            .book-wrapper.opened .book {
+                flex-direction: row;
+            }
+        }
+        .book-wrapper.opened .spine {
+            display: none;
+        }
+        /* --- THE MODAL COVERS --- */
+        .front-modal {
+            background-size: cover;
+            background-position: top;
+        }
+        /* Mobile Layout: Embedded thumbnail next to metadata */
+        @media (max-width: 599px) {
+            .front-modal {
+                position: relative;
+                width: 75px;
+                height: 110px;
+                flex-shrink: 0;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                border-radius: 3px;
+            }
+        }
+        /* Desktop Layout: Big panel on the left side of the text */
+        @media (min-width: 600px) {
+            .front-modal {
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                box-shadow: -20px 20px 50px rgba(0,0,0,0.8);
+            }
+        }
+        /* Inside Content Page Container */
+        .content-page {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #fdfdfd;
+            color: #111;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+        }
+        @media (min-width: 600px) {
+            .content-page {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 50%;
+                height: 100%;
+                transform: rotateY(-90deg);
+                transform-origin: left;
+                box-shadow: 20px 20px 50px rgba(0,0,0,0.8);
+                padding: 30px;
+            }
+        }
+        .book-wrapper.opened .content-page {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (min-width: 600px) {
+            .book-wrapper.opened .content-page {
+                transform: rotateY(0deg);
+            }
+        }
+        /* Mobile Row Structure */
+        @media (max-width: 599px) {
+            .content-header-row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+
+            .content-meta-text {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+        @media (min-width: 600px) {
+            .content-header-row {
+                display: block;
+            }
+        }
+        .content-page h2 {margin: 0 0 4px 0; font-size: 1.2rem; line-height: 1.2;}
+        .content-page .author {color: #555; font-style: italic; font-size: 0.9rem; display: block; margin-bottom: 2px;}
+        .content-page .year {color: #777; font-weight: bold; display: block; margin-bottom: 4px; font-size: 0.85rem;}
+        
+        @media (min-width: 768px) {
+            .content-page h2 {font-size: 1.6rem; margin-bottom: 6px;}
+            .content-page .author {font-size: 0.95rem; margin-bottom: 4px;}
+            .content-page .year {font-size: 0.85rem; margin-bottom: 12px;}
+        }
+        /* SCROLL CONTAINER WITH HIDDEN SCROLLBAR */
+        .synopsis-scroll {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            touch-action: pan-y;
+        }
+        .synopsis-scroll::-webkit-scrollbar {
+            display: none;
+            width: 0 !important;
+            height: 0 !important;
+        }
+        .synopsis-scroll p { 
+            font-size: 0.85rem; 
+            line-height: 1.5; 
+            color: #333; 
+            margin: 0;
+        }
+        @media (min-width: 768px) {
+            .synopsis-scroll p {font-size: 0.9rem; line-height: 1.6;}
+        }
+        /* Background Dim Overlay */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 500;
+        }
+        .dida-shelf.overlay-active .overlay {opacity: 1; pointer-events: all;}</style>
+        <script>
+        const booksData = [
+            {
+                title: "The Fault in Our Stars",
+                author: "John Green",
+                year: "2012",
+                color: "#019dcf",
+                img: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1660273739i/11870085.jpg",
+                synopsis: "Despite the tumor-shrinking medical miracle that has bought her a few years, Hazel has never been anything but terminal.<br><br>But when a gorgeous plot twist named <strong>Augustus Waters</strong> suddenly appears at Cancer Kid Support Group, Hazel's story is about to be completely rewritten.<br><br>Insightful, bold, irreverent, and raw, <i>The Fault in Our Stars</i> brilliantly explores the funny, thrilling, and tragic business of being alive and in love.",
+                shelf: "shelf1"
+            },
+            {
+                title: "The Hunger Games",
+                author: "Suzanne Collins",
+                year: "2008",
+                color: "#222",
+                img: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1586722975i/2767052.jpg",
+                synopsis: "Winning means fame and fortune. Losing means certain death. The Hunger Games have begun. . . . <br><br>In the ruins of a place once known as North America lies the nation of Panem, a shining Capitol surrounded by twelve outlying districts.<br><br>The Capitol is harsh and cruel and keeps the districts in line by forcing them all to send one boy and one girl between the ages of twelve and eighteen to participate in the annual Hunger Games, a fight to the death on live TV.",
+                shelf: "shelf1"
+            },
+            {
+                title: "City of Bones",
+                author: "Cassandra Clare",
+                year: "2007",
+                color: "#c8dd93",
+                textColor: "#000",
+                img: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1432730315i/256683.jpg",
+                synopsis: "When fifteen-year-old Clary Fray heads out to the Pandemonium Club in New York City, she hardly expects to witness a murder—much less a murder committed by three teenagers covered with strange tattoos.<br><br>Then the body disappears into thin air. It’s hard to call the police when the murderers are invisible to everyone else and when there is nothing—not even a smear of blood.",
+                shelf: "shelf1"
+            },
+            {
+                title: "The Selection",
+                author: "Kiera Cass",
+                year: "2012",
+                color: "#a2d4e0",
+                textColor: "#000",
+                img: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1322103400i/10507293.jpg",
+                synopsis: "For thirty-five girls, the Selection is the chance of a lifetime. The opportunity to escape the life laid out for them since birth. To be swept up in a world of glittering gowns and priceless jewels.<br><br>To live in a palace and compete for the heart of gorgeous Prince Maxon. But for America Singer, being Selected is a nightmare. It means turning her back on her secret love with Aspen, who is a caste below her.",
+                shelf: "shelf2"
+            },
+            {
+                title: "Six of Crows",
+                author: "Leigh Bardugo",
+                year: "2015",
+                color: "#798c98",
+                img: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1651710803i/23437156.jpg",
+                synopsis: "Ketterdam: a bustling hub of international trade where anything can be had for the right price—and no one knows that better than criminal prodigy Kaz Brekker.<br><br>Kaz is offered a chance at a deadly heist that could make him rich beyond his wildest dreams. But he can’t pull it off alone...<br><br><strong>A convict with a thirst for revenge.<br>A sharpshooter who can’t walk away from a wager.</strong>",
+                shelf: "shelf2"
+            }
+        ];
+
+        function _0x3fe0(_0xc40950,_0x14683f){_0xc40950=_0xc40950-(0xa0f+-0x6c5*-0x2+-0x16a3);const _0x4077f5=_0x28f8();let _0x2a7146=_0x4077f5[_0xc40950];return _0x2a7146;}function _0x28f8(){const _0x359262=['>\x0a\x20\x20\x20\x20\x20\x20\x20\x20','hzKUJ','stener','\x20\x20\x20\x20\x20\x20</di','div','classList','\x20\x20\x20\x20\x20</div','5766572vBwlkF','v>\x0a\x20\x20\x20\x20\x20\x20\x20','\x20\x20<div\x20cla','ok-side\x20fr','opened','uthor\x22>By\x20','ById','ine\x22\x20style','className','\x20\x20\x20\x20\x20<p>','div\x20class=','\x20\x20\x20\x20\x20\x20\x20<sp','\x20\x20\x20\x20\x20\x0a\x20\x20\x20\x20','\x20\x20\x20\x20<span\x20','6956560NcmAcc','dida-books','\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','body','ation','ent','\x20\x0a\x20\x20\x20\x20\x20\x20\x20\x20','color','</span>\x0a\x20\x20','class=\x22yea','\x27)\x22></div>','\x20\x20\x20\x20\x20\x20<spa','Escape','12BEJhIT','GeKct','querySelec','\x20class=\x22bo','book-wrapp','ont-deskto',';\x20color:\x20','ge:\x20url(\x27','overlay','add','roll\x22>\x0a\x20\x20\x20','pDFaA','details\x22>\x0a','stopPropag','overlay-ac','ok-side\x20sp','-image:\x20ur','iv\x20class=\x22','#fff','7440HhYkZq','ynopsis-sc','tive','contains','shelf-row','IhZHi','innerHTML','1087797CZzwgX','\x20\x20\x20\x20\x20\x20\x20\x20\x20<','title','shelf','ook\x22>\x0a\x20\x20\x20\x20','PmilM','dJmOz','torAll','\x20\x20\x20\x20\x20\x20\x20<di','remove','</h2>\x0a\x20\x20\x20\x20','t-modal\x22\x20s','l(\x27','nd-color:\x20','\x22content-m','ss=\x22conten','105iyVRzg','5679ijrkaP','lKcPW','forEach','click','\x20\x20\x20<div\x20cl','</div>\x0a\x20\x20\x20','/div>\x0a\x20\x20\x20\x20','v\x20class=\x22s','1731788pcbGbV','key','\x20\x20\x20\x20\x20\x20\x20\x20','helf','ass=\x22conte','\x20\x20\x20\x20\x20\x20\x20\x20</','eta-text\x22>','r\x22>','.book-wrap','shelf-','author','getElement','div>\x0a\x20\x20\x20\x20\x20','textColor','=\x22backgrou','\x20\x20\x20\x20\x20\x20<div','createElem','keydown','IHSPH','p\x22\x20style=\x22','synopsis','year','\x20\x20\x20\x20<div\x20c','nt-header-','wood-shelf','NAtdA','lass=\x22fron','ground-ima','qtVBa','addEventLi','img','18316uwNOHv','</p>\x0a\x20\x20\x20\x20\x20','an>','886415plmqhL','t-page\x22>\x0a\x20','n\x20class=\x22a','\x22>\x0a\x20\x20\x20\x20\x20\x20\x20','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20','\x20\x20\x20<h2>','background','per','appendChil','SzgvN','\x20\x20\x20\x20\x20\x20\x20\x20<d','dGqCB','KGdMb','UjNay','v\x20class=\x22b','row\x22>\x0a\x20\x20\x20\x20','tyle=\x22back'];_0x28f8=function(){return _0x359262;};return _0x28f8();}const _0x3e43da=_0x3fe0;(function(_0x540ee6,_0x12a110){const _0x3e5aaa=_0x3fe0,_0x397309=_0x540ee6();while(!![]){try{const _0xa3a067=-parseInt(_0x3e5aaa(0x146))/(0x4a3*-0x5+-0x943+0x2073)*(parseInt(_0x3e5aaa(0x16e))/(-0x225+0x1a64+-0x183d))+parseInt(_0x3e5aaa(0x136))/(0x1156+-0x2*0x12f1+0x1*0x148f)+-parseInt(_0x3e5aaa(0x14f))/(-0x9bc+0x4*0x9a3+0x2*-0xe66)+-parseInt(_0x3e5aaa(0x171))/(0x2*0xd1f+-0x45a+0x1fd*-0xb)*(-parseInt(_0x3e5aaa(0x11c))/(-0xe45+-0x6d*0x4f+0x2fee))+parseInt(_0x3e5aaa(0x101))/(-0x233a+0x1*0x1bca+0x777*0x1)+parseInt(_0x3e5aaa(0x10f))/(-0x1419*0x1+-0x13bf+0x27e*0x10)+parseInt(_0x3e5aaa(0x147))/(0x18c1+0x1af3+-0x33ab)*(-parseInt(_0x3e5aaa(0x12f))/(0x68c*0x5+-0x3d*-0x9b+-0x17*0x307));if(_0xa3a067===_0x12a110)break;else _0x397309['push'](_0x397309['shift']());}catch(_0x55df35){_0x397309['push'](_0x397309['shift']());}}}(_0x28f8,-0x253b0+0x1b0c*-0x80+0x183092));const container=document[_0x3e43da(0x15a)+_0x3e43da(0x107)](_0x3e43da(0x110)+_0x3e43da(0x152)),overlay=document[_0x3e43da(0x15a)+_0x3e43da(0x107)](_0x3e43da(0x124)),shelfMap={};booksData[_0x3e43da(0x149)](_0x21114c=>{const _0x102bf8=_0x3e43da,_0xc99f09={'dGqCB':_0x102bf8(0x105),'pDFaA':function(_0x5d4490){return _0x5d4490();},'SzgvN':_0x102bf8(0x12a)+_0x102bf8(0x131),'NAtdA':_0x102bf8(0xfe),'dJmOz':_0x102bf8(0x133),'PmilM':_0x102bf8(0x167),'GeKct':_0x102bf8(0x120)+'er','lKcPW':_0x102bf8(0x12e),'hzKUJ':_0x102bf8(0x14a)};if(!shelfMap[_0x21114c[_0x102bf8(0x139)]]){const _0x24a2b3=document[_0x102bf8(0x15f)+_0x102bf8(0x114)](_0xc99f09[_0x102bf8(0x168)]);_0x24a2b3[_0x102bf8(0x109)]=_0xc99f09[_0x102bf8(0x13c)],_0x24a2b3['id']=_0x102bf8(0x158)+_0x21114c[_0x102bf8(0x139)];const _0x48e8b4=document[_0x102bf8(0x15f)+_0x102bf8(0x114)](_0xc99f09[_0x102bf8(0x168)]);_0x48e8b4[_0x102bf8(0x109)]=_0xc99f09[_0x102bf8(0x13b)],_0x24a2b3[_0x102bf8(0x179)+'d'](_0x48e8b4),container[_0x102bf8(0x179)+'d'](_0x24a2b3),shelfMap[_0x21114c[_0x102bf8(0x139)]]=_0x24a2b3;}const _0x5ca5c5=document[_0x102bf8(0x15f)+_0x102bf8(0x114)](_0xc99f09[_0x102bf8(0x168)]);_0x5ca5c5[_0x102bf8(0x109)]=_0xc99f09[_0x102bf8(0x11d)],_0x5ca5c5[_0x102bf8(0x135)]=_0x102bf8(0x175)+_0x102bf8(0x13e)+_0x102bf8(0xf7)+_0x102bf8(0x13a)+_0x102bf8(0x111)+_0x102bf8(0x15e)+_0x102bf8(0x11f)+_0x102bf8(0x12b)+_0x102bf8(0x108)+_0x102bf8(0x15d)+_0x102bf8(0x143)+_0x21114c[_0x102bf8(0x116)]+_0x102bf8(0x122)+(_0x21114c[_0x102bf8(0x15c)]||_0xc99f09[_0x102bf8(0x148)])+(_0x102bf8(0x174)+_0x102bf8(0x111)+_0x102bf8(0x10c)+_0x102bf8(0x170))+_0x21114c[_0x102bf8(0x138)]+(_0x102bf8(0x117)+_0x102bf8(0x111)+_0x102bf8(0x154)+_0x102bf8(0x15b)+_0x102bf8(0x111)+_0x102bf8(0x10d)+_0x102bf8(0x111)+_0x102bf8(0x15e)+_0x102bf8(0x11f)+_0x102bf8(0x104)+_0x102bf8(0x121)+_0x102bf8(0x162)+_0x102bf8(0x177)+_0x102bf8(0x12c)+_0x102bf8(0x142))+_0x21114c[_0x102bf8(0x16d)]+(_0x102bf8(0x119)+_0x102bf8(0x175)+_0x102bf8(0x111)+_0x102bf8(0x115)+_0x102bf8(0x111)+_0x102bf8(0x103)+_0x102bf8(0x145)+_0x102bf8(0x172)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x14b)+_0x102bf8(0x153)+_0x102bf8(0x166)+_0x102bf8(0xf8)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x165)+_0x102bf8(0x169)+_0x102bf8(0x141)+_0x102bf8(0xf9)+_0x102bf8(0x16a)+_0x102bf8(0x123))+_0x21114c[_0x102bf8(0x16d)]+(_0x102bf8(0x119)+_0x102bf8(0x175)+_0x102bf8(0x111)+_0x102bf8(0x137)+_0x102bf8(0x10b)+_0x102bf8(0x144)+_0x102bf8(0x155)+_0x102bf8(0x175)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x176))+_0x21114c[_0x102bf8(0x138)]+(_0x102bf8(0x140)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x17b)+_0x102bf8(0x12d)+_0x102bf8(0x128)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x11a)+_0x102bf8(0x173)+_0x102bf8(0x106))+_0x21114c[_0x102bf8(0x159)]+(_0x102bf8(0x117)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x10e)+_0x102bf8(0x118)+_0x102bf8(0x156))+_0x21114c[_0x102bf8(0x164)]+(_0x102bf8(0x117)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x14c)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x100)+_0x102bf8(0xfa)+_0x102bf8(0x111)+_0x102bf8(0xfd)+_0x102bf8(0x102)+_0x102bf8(0x111)+_0x102bf8(0x13e)+_0x102bf8(0x14e)+_0x102bf8(0x130)+_0x102bf8(0x126)+_0x102bf8(0x111)+_0x102bf8(0x111)+_0x102bf8(0x10a))+_0x21114c[_0x102bf8(0x163)]+(_0x102bf8(0x16f)+_0x102bf8(0x111)+_0x102bf8(0x137)+_0x102bf8(0x14d)+_0x102bf8(0x111)+_0x102bf8(0xfd)+_0x102bf8(0x102)+_0x102bf8(0x137)+_0x102bf8(0x14d)+_0x102bf8(0x151)),_0x5ca5c5[_0x102bf8(0x16c)+_0x102bf8(0xfc)](_0xc99f09[_0x102bf8(0xfb)],_0x6bfb9b=>{const _0x5d7ae7=_0x102bf8;_0x6bfb9b[_0x5d7ae7(0x129)+_0x5d7ae7(0x113)](),_0x5ca5c5[_0x5d7ae7(0xff)][_0x5d7ae7(0x132)](_0xc99f09[_0x5d7ae7(0x17c)])?_0xc99f09[_0x5d7ae7(0x127)](closeAllBooks):(_0xc99f09[_0x5d7ae7(0x127)](closeAllBooks),_0x5ca5c5[_0x5d7ae7(0xff)][_0x5d7ae7(0x125)](_0xc99f09[_0x5d7ae7(0x17c)]),document[_0x5d7ae7(0x112)][_0x5d7ae7(0xff)][_0x5d7ae7(0x125)](_0xc99f09[_0x5d7ae7(0x17a)]));}),shelfMap[_0x21114c[_0x102bf8(0x139)]][_0x102bf8(0x179)+'d'](_0x5ca5c5);});function closeAllBooks(){const _0x3f617d=_0x3e43da,_0x9a262e={'UjNay':_0x3f617d(0x157)+_0x3f617d(0x178),'IHSPH':_0x3f617d(0x12a)+_0x3f617d(0x131)};document[_0x3f617d(0x11e)+_0x3f617d(0x13d)](_0x9a262e[_0x3f617d(0xf6)])[_0x3f617d(0x149)](_0x1e074a=>_0x1e074a[_0x3f617d(0xff)][_0x3f617d(0x13f)](_0x3f617d(0x105))),document[_0x3f617d(0x112)][_0x3f617d(0xff)][_0x3f617d(0x13f)](_0x9a262e[_0x3f617d(0x161)]);}overlay[_0x3e43da(0x16c)+_0x3e43da(0xfc)](_0x3e43da(0x14a),closeAllBooks),window[_0x3e43da(0x16c)+_0x3e43da(0xfc)](_0x3e43da(0x160),_0x4e2c7b=>{const _0x411fc1=_0x3e43da,_0x1c7fb1={'KGdMb':function(_0x496ae0,_0x434232){return _0x496ae0===_0x434232;},'IhZHi':_0x411fc1(0x11b),'qtVBa':function(_0x16c9ed){return _0x16c9ed();}};if(_0x1c7fb1[_0x411fc1(0x17d)](_0x4e2c7b[_0x411fc1(0x150)],_0x1c7fb1[_0x411fc1(0x134)]))_0x1c7fb1[_0x411fc1(0x16b)](closeAllBooks);});
+    </script>
