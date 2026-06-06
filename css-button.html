@@ -1,0 +1,222 @@
+<style>.display-button{background: #0f172a;color:#f8fafc;padding:0 20px;display:flex;flex-direction:column;align-items:center;min-height:100vh;margin:0;}.button-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:30px;width:100%;max-width:1200px;padding:40px;}
+.btn{position:relative;height:55px;padding:0 20px;font-size:14px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;background:none;color:#ffffff;border:none;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-sizing:border-box;overflow:hidden;transition:all 0.3s ease;user-select:none;}
+/* Minimal Button */
+.btn01{background: transparent; border: 1px solid #475569; color: #94a3b8;}
+.btn01:hover{border-color: #f8fafc; color: #f8fafc;}
+/* Slide Fill Button */
+.btn02{border: 2px solid #3b82f6; z-index: 1;}
+.btn02::before{content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: #3b82f6; z-index: -1; transition: width 0.3s ease;}
+.btn02:hover::before{width: 100%;}
+/* Glow Button */
+.btn3{background: #8b5cf6; box-shadow: 0 0 0 rgba(139, 92, 246, 0);}
+.btn3:hover{box-shadow: 0 0 20px #8b5cf6; transform: scale(1.02);}
+/* Pulse Button */
+.btn4{background: #ef4444;}
+.btn4:hover{animation: pulseAnim 1s infinite;}
+@keyframes pulseAnim{0%{box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);}
+70%{box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);}
+100%{box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);}
+}
+/* Border Draw Button */
+.btn5{background:transparent;}
+.btn5::before, .btn5::after{content:""; position:absolute; width:0; height:2px; background:#FAC898; transition:.4s;}
+.btn5::before{top:0; left:0;}
+.btn5::after{bottom:0; right:0;}
+.btn5:hover::before, .btn5:hover::after{width:100%;}
+/* Gradient Shift Button */
+.btn7{background: linear-gradient(45deg, #f43f5e, #ec4899, #8b5cf6); background-size: 200% 200%;}
+.btn7:hover{background-position: right center;}
+/* Ripple Button */
+.btn8{background: #0ea5e9;}
+.btn8::after{content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255, 255, 255, 0.3); border-radius: 50%; transform: translate(-50%, -50%); opacity: 0;}
+.btn8:focus::after{animation: rippleAnim 0.6s ease-out;}
+@keyframes rippleAnim{0%{width: 0; height: 0; opacity: 1;}
+100%{width: 300px; height: 300px; opacity: 0;}
+}
+/* Neon Button */
+.btn9{border: 2px solid #06b6d4; color: #06b6d4; text-shadow: 0 0 8px rgba(6, 182, 212, 0.6);}
+.btn9:hover{background: #06b6d4; color: #000; box-shadow: 0 0 15px #06b6d4, 0 0 30px #06b6d4;}
+/* Glass Button */
+.btn10{background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.2);}
+.btn10:hover{background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.3);}
+/* Lift Up Button */
+.btn11{background: #f59e0b; box-shadow: 0 4px 6px rgba(0,0,0,0.2);}
+.btn11:hover{transform: translateY(-5px); box-shadow: 0 12px 20px rgba(245, 158, 11, 0.3);}
+/* Rotate Button */
+.btn12{border: 2px solid #ec4899; color: #ec4899;}
+.btn12:hover{transform: rotate(3deg) scale(1.05); background: #ec4899; color: white;}
+/* Skew Button */
+.btn13{background: #14b8a6; transform: skewX(-10deg);}
+.btn13:hover{transform: skewX(0deg) scale(1.05);}
+/* Dual Border Button */
+.btn14{background: transparent; border: 2px solid #6366f1; outline: 2px solid transparent; outline-offset: 4px;}
+.btn14:hover{outline-color: #6366f1;}
+/* Shadow Grow Button */
+.btn15{background: #334155;}
+.btn15:hover{box-shadow: inset 0 0 0 2em #1e293b;}
+/* Liquid Button */
+.btn16{background: transparent; border: 1px solid #475569;}
+.btn16::before{content:""; position:absolute; width:150%; height:300%; background:rgba(0,150,255,.5); left:-25%; top:100%; border-radius:40%; transition:.5s;}
+.btn16:hover::before{top:-50%;}
+/* Underline Button */
+.btn17{color: #38bdf8;}
+.btn17::before{content: ''; position: absolute; bottom: 5px; left: 0; width: 0; height: 2px; background: #38bdf8; transition: width 0.3s ease;}
+.btn17:hover::before{width: 100%;}
+/* Flip Button */
+.btn18{background: #2563eb;}
+.btn18:hover{transform:rotateX(180deg);}
+/* Zoom Button */
+.btn19{background: #e11d48;}
+.btn19:hover{transform: scale(1.15);}
+/* 20. Bounce Button */
+.btn20{background: #16a34a;}
+.btn20:hover{animation: bounceAnim 0.5s infinite alternate;}
+@keyframes bounceAnim{from{transform: translateY(0);}
+to{transform: translateY(-8px);}
+}
+/* Sketch Box Button */
+.btn21{border: 3px solid #f8fafc; border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;}
+.btn21:hover{background: rgba(255, 255, 255, 0.1);}
+/* Marker Button */
+.btn22{z-index: 1;}
+.btn22::before{content: ''; position: absolute; bottom: 5px; left: -5%; width: 110%; height: 40%; background: rgba(250, 204, 21, 0.3); z-index: -1; transform: rotate(-1deg); transition: height 0.2s ease;}
+.btn22:hover::before{height: 85%; background: rgba(250, 204, 21, 0.8); color: #000;}
+/* Rough Edge Button */
+.btn23{background: #84cc16; clip-path: polygon(0% 10%, 95% 0%, 100% 85%, 5% 100%);}
+.btn23:hover{clip-path: polygon(5% 0%, 100% 15%, 90% 100%, 0% 85%);}
+/* Paper Button */
+.btn24{background: #e2e8f0; color: #1e293b; box-shadow: 1px 1px 0 #94a3b8, 2px 2px 0 #94a3b8, 3px 3px 0 #94a3b8;}
+.btn24:active{transform: translate(3px, 3px); box-shadow: none;}
+/* Stamp Button */
+.btn25{border: 4px dashed #f472b6; color: #f472b6;}
+.btn25:hover{background: rgba(244, 114, 182, 0.1); transform: scale(0.95);}
+/* 3D Block Button */
+.btn26{background: #ea580c; transform: translateY(-4px); box-shadow: 0 4px 0 #9a3412;}
+.btn26:active{transform: translateY(0); box-shadow: 0 0 0 #9a3412;}
+/* Cyber Button */
+.btn27{background: #00ffcc; color: #000; clip-path: polygon(90% 0, 100% 34%, 100% 100%, 10% 100%, 0 66%, 0 0); font-family: monospace;}
+.btn27:hover{box-shadow: 0 0 15px #00ffcc; letter-spacing: 2px;}
+/* 3D Cartoon Button */
+.btn28{appearance: none; border: none; cursor: pointer; padding: 14px 28px; font-family: inherit; color: #5a5560; background: linear-gradient( to bottom, #ffdff0, #ffcce7 ); border-radius: 18px; box-shadow: 0 8px 0 #e6a8c7, 0 12px 20px rgba(0,0,0,.12), inset 0 2px 0 rgba(255,255,255,.8); transition: transform .1s ease, box-shadow .1s ease;}
+.btn28:hover{transform: translateY(-2px); box-shadow: 0 10px 0 #e6a8c7, 0 16px 24px rgba(0,0,0,.15), inset 0 2px 0 rgba(255,255,255,.8);}
+.btn28:active{transform: translateY(6px); box-shadow: 0 2px 0 #e6a8c7, 0 4px 8px rgba(0,0,0,.12), inset 0 2px 4px rgba(0,0,0,.08);}
+/* Irregular Button */
+.btn29{--main: #f7c63d; --shadow: #f09a3e; position: relative; display: inline-block; padding: 14px 60px; text-decoration: none; color: #2d2d44; background: var(--main); clip-path: polygon( 0 10%, 100% 0, 95% 100%, 5% 100% ); transform: translateZ(0);}
+.btn29::before{content: ""; position: absolute; inset: 0; background: var(--shadow); clip-path: inherit; transform: translate(6px, 6px); z-index: -1;}
+.btn29:hover{transform: translateY(-2px);}
+.btn29:hover::before{transform: translate(8px, 8px);}
+.btn29:active{transform: translate(4px, 4px);}
+.btn29:active::before{transform: translate(2px, 2px);}
+/* Overlay Button */
+.btn30{position: relative; overflow: visible; padding: 1rem 2rem; display: flex; padding: 10px 25px; text-decoration: none; color: white; background: #6225E6; transition: 1s; box-shadow: 6px 6px 0 black; transform: skewX(-15deg);}
+.btn30 .overlay-img{position: absolute; width: clamp(32px, 35%, 56px); aspect-ratio: 1; top: 0; right: 0; transform: translate(40%, -20%); object-fit: contain; pointer-events: none;}
+.btn30:hover{transition: 0.5s; box-shadow: 10px 10px 0 #FBC638;}
+
+    /* --- Dynamic Code Viewer Styling --- */
+.code-viewer-container{grid-column: 1 / -1; background: #070a12; border: 1px solid #1e293b; border-radius: 8px; overflow: hidden; display: none; margin: 15px 0; animation: expandDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
+.code-viewer-header{background: #1e293b; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;}
+.code-viewer-header span{font-size: 13px; font-weight: 600; color: #38bdf8;}
+.copy-btn{background: #38bdf8; color: #0f172a; border: none; padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.2s;}
+.copy-btn:hover{background: #7dd3fc;}
+pre{margin: 0; padding: 20px; overflow-x: auto;}
+code{color: #34d399; font-size: 13px; line-height: 1.6;}
+@keyframes expandDown{from{opacity: 0; transform: translateY(-10px);}
+to{opacity: 1; transform: translateY(0);}
+}
+</style>
+
+<div class="display-button">
+  <div class="button-grid" id="mainButtonGrid">
+    <button class="btn btn01">Minimal Button</button>
+    <button class="btn btn02">Slide Fill Button</button>
+    <button class="btn btn3">Glow Button</button>
+    <button class="btn btn4">Pulse Button</button>
+    <button class="btn btn5">Border Draw Button</button>
+    <button class="btn btn7">Gradient Shift Button</button>
+    <button class="btn btn8">Ripple Button</button>
+    <button class="btn btn9">Neon Button</button>
+    <button class="btn btn10">Glass Button</button>
+
+    <button class="btn btn11">Lift Up Button</button>
+    <button class="btn btn12">Rotate Button</button>
+    <button class="btn btn13">Skew Button</button>
+    <button class="btn btn14">Dual Border Button</button>
+    <button class="btn btn15">Shadow Grow Button</button>
+    <button class="btn btn16">Liquid Button</button>
+    <button class="btn btn17">Underline Button</button>
+    <button class="btn btn18">Flip Button</button>
+    <button class="btn btn19">Zoom Button</button>
+    <button class="btn btn20">Bounce Button</button>
+
+    <button class="btn btn21">Sketch Box Button</button>
+    <button class="btn btn22">Marker Button</button>
+    <button class="btn btn23">Rough Edge Button</button>
+    <button class="btn btn24">Paper Button</button>
+    <button class="btn btn25">Stamp Button</button>
+    <button class="btn btn26">3D Block Button</button>
+    <button class="btn btn27">Cyber Button</button>
+    <button class="btn btn28">3D Cartoon Button</button>
+    <button class="btn btn29">Irregular Button</button>
+    <button class="btn btn30">Overlay Button<img src="https://cdn3.emoji.gg/emojis/41929-bat.gif" alt="" class="overlay-img"></button>
+    
+     <div class="code-viewer-container" id="codeViewerContainer">
+      <div class="code-viewer-header">
+        <span id="activeButtonName">Generated Code</span>
+        <button class="copy-btn" id="copyBtn">Copy Code</button>
+      </div>
+      <pre><code id="codeDisplay"></code></pre>
+    </div>
+  </div>
+</div>
+
+<script>//<![CDATA[ 
+    const grid = document.querySelector('.button-grid');
+    const codeViewer = document.getElementById('codeViewerContainer');
+    const codeDisplay = document.getElementById('codeDisplay');
+    const activeButtonName = document.getElementById('activeButtonName');
+    const copyBtn = document.getElementById('copyBtn');
+
+    grid.addEventListener('click', (e) => {
+      if (e.target.classList.contains('btn')) {
+        const clickedBtn = e.target;
+        const specificClass = Array.from(clickedBtn.classList).find(cls => cls !== 'btn');
+        const buttonText = clickedBtn.innerText;
+
+        const ruleElement = document.styleSheets[0].cssRules;
+        let matchedCSS = "";
+
+        const preciseRegex = new RegExp(`\\.${specificClass}\\b`);
+
+        for(let i=0; i<ruleElement.length; i++) {
+          if(ruleElement[i].selectorText && preciseRegex.test(ruleElement[i].selectorText)) {
+            matchedCSS += ruleElement[i].cssText + "\n";
+          }
+        }
+
+        const generatedCode = `\n<button class="btn ${specificClass}">${buttonText}</button>\n\n/* Custom CSS Code */\n${matchedCSS || '/* Style block matching targets */'}`;
+
+        codeDisplay.textContent = generatedCode;
+        activeButtonName.textContent = `Source Snippet: ${buttonText}`;
+        
+        clickedBtn.insertAdjacentElement('afterend', codeViewer);
+        codeViewer.style.display = 'block';
+        
+        copyBtn.textContent = 'Copy Code';
+        copyBtn.style.background = '#38bdf8';
+      }
+    });
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(codeDisplay.textContent).then(() => {
+        copyBtn.textContent = 'Copied!';
+        copyBtn.style.background = '#10b981';
+        
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy Code';
+          copyBtn.style.background = '#38bdf8';
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy text safely: ', err);
+      });
+    });
+//]]></script>
